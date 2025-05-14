@@ -6,8 +6,7 @@ CREATE TABLE users (
 
 CREATE TABLE photos (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
+  user_id VARCHAR(255),
   photo_url TEXT,
-  photo_name TEXT,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  photo_name TEXT
 );

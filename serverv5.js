@@ -104,7 +104,12 @@ app.post('/api/upload', upload.single('imgfile'), async (req, res) => {
 
   try {
     const blob = bucket.file(file.originalname);
-    const blobStream = blob.createWriteStream({ metadata: { contentType: file.mimetype } });
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: file.mimetype,
+        contentDisposition: 'attachment', // Ensures the browser prompts a download
+      },
+    });
 
     blobStream.on('finish', () => {
       const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
