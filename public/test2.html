@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .download-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click to Download Image</h1>
+    
+    <!-- Image Display (optional) -->
+    <img src="https://ffb42469d2c822f90ccdcf5f151995336072b5bae861cdb76eadb83-apidata.googleusercontent.com/download/storage/v1/b/proj3-bucket/o/5cc69b67-0b77-4f4f-ad15-e3b9381b77a1_post.jpeg?jk=AbSFce4SREEVY1JMppG54rTDWf_4aQOhzGLKxtf0jdwy6Ttv5P5Ks4s_gErbXvRRquiFL86Dj3fOpONv49w2XSdExHm1C_euHeqkMyrITxNiHTfhq51K0azfOCvw3zPLZg3-3V0j7JdRqMkoMRtoOZrZ0kvZUpvRqiai6nDal4tZq3nIC_pkMoV4RYbY8inhAoR2nhl34Nd-C6ePuIMNKTxANwnhsVIC9x0dOk7m_oTGfRgq7zI9HUgNxyzXAQo17syUeKeELurkp_qOyLUEWe8V0qiqFooc6-nEZ4VdvQLBYKLDtQTSPnGgOG2pRD689Q-NjbWeC03aqCB6KM3V1Idtee1P7zy0_Gkdp5wIk5otu8IU-Y4ZiouFUYEx9ay-YV-yaqf7DtsxWbmL43pO2B4tQNLjQB_mWtCBa8Kt2NBeERGHT-C7bBngp0815xmIdijsyAJZrXgY4m48ZsSD81GHwzVeYLfb-xOmt-1IIS3w8QHmYCfkHF2EifyH9EHna5Sgswun4gQBr-OWOZEg5eDoAYvdvJwB10ZYCAen6fBzFImANfCVgkSuB6Hf61N5jR5zKoKnok9RcM_x7o4CH9tvnSkO1f5KWwAwtOCdKe4WP4xKX6hE7Hk8DcGzpyIkipQDzc_F1dF-OyczYrxU62ltEWWWagNKiMV3wI6h6sbTjo9bX6nd1gv90DPQyvJkjHNIinY0Wt7FLP9p-sG932Chjy3KHaFP9hWxNPVAlG76j9gEY02cl6yrSYxH9HB-jdsFPuZTzNcj5qe8cmKp7fCmcDmUcoIxLaYgpHrCg4LQlQjkE5TGQ3-oTzPesqKSk-pGRJF6TOlDdg2BHmQE1dcUmibM7n5m-T9HmpcD5PwTFTGHv5VriNqvWoauO62S7pWHG-k7VU07ZqSWnEWS1ggzLelFiGGWEXl-a3WqpDzOzcIeGQXOYyTOAtTtYZ-_UdEziPjcGeZy4BBkp42NyxGFt7bB1l6m9Hm1i6Ws6caG-JPhLytHukpdzSj2jxaSJuyGmBBYz0E2LWTMnqCv1z9lKmzI0pvqOAHQGE6omdAYVtersN1CkPKhyHl8sXWwnmjTe4U4rgyYAddKQC5ExznFGV57JdiWF-k8yr2K6nkC12EgCWpUjoUo7j3kPJN5xEj1YXTlbBLfOkAVsJ2eXhS4kR58H5GmCVX7kUpLQVsZLAfMiQzhY-MLub6mXVCtOekN&isca=1" alt="Image" style="max-width: 100%; height: auto;">
+
+    <!-- Download Button -->
+    <button class="download-btn" id="downloadBtn">Download Image</button>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const imageUrl = "https://ffb42469d2c822f90ccdcf5f151995336072b5bae861cdb76eadb83-apidata.googleusercontent.com/download/storage/v1/b/proj3-bucket/o/5cc69b67-0b77-4f4f-ad15-e3b9381b77a1_post.jpeg?jk=AbSFce4SREEVY1JMppG54rTDWf_4aQOhzGLKxtf0jdwy6Ttv5P5Ks4s_gErbXvRRquiFL86Dj3fOpONv49w2XSdExHm1C_euHeqkMyrITxNiHTfhq51K0azfOCvw3zPLZg3-3V0j7JdRqMkoMRtoOZrZ0kvZUpvRqiai6nDal4tZq3nIC_pkMoV4RYbY8inhAoR2nhl34Nd-C6ePuIMNKTxANwnhsVIC9x0dOk7m_oTGfRgq7zI9HUgNxyzXAQo17syUeKeELurkp_qOyLUEWe8V0qiqFooc6-nEZ4VdvQLBYKLDtQTSPnGgOG2pRD689Q-NjbWeC03aqCB6KM3V1Idtee1P7zy0_Gkdp5wIk5otu8IU-Y4ZiouFUYEx9ay-YV-yaqf7DtsxWbmL43pO2B4tQNLjQB_mWtCBa8Kt2NBeERGHT-C7bBngp0815xmIdijsyAJZrXgY4m48ZsSD81GHwzVeYLfb-xOmt-1IIS3w8QHmYCfkHF2EifyH9EHna5Sgswun4gQBr-OWOZEg5eDoAYvdvJwB10ZYCAen6fBzFImANfCVgkSuB6Hf61N5jR5zKoKnok9RcM_x7o4CH9tvnSkO1f5KWwAwtOCdKe4WP4xKX6hE7Hk8DcGzpyIkipQDzc_F1dF-OyczYrxU62ltEWWWagNKiMV3wI6h6sbTjo9bX6nd1gv90DPQyvJkjHNIinY0Wt7FLP9p-sG932Chjy3KHaFP9hWxNPVAlG76j9gEY02cl6yrSYxH9HB-jdsFPuZTzNcj5qe8cmKp7fCmcDmUcoIxLaYgpHrCg4LQlQjkE5TGQ3-oTzPesqKSk-pGRJF6TOlDdg2BHmQE1dcUmibM7n5m-T9HmpcD5PwTFTGHv5VriNqvWoauO62S7pWHG-k7VU07ZqSWnEWS1ggzLelFiGGWEXl-a3WqpDzOzcIeGQXOYyTOAtTtYZ-_UdEziPjcGeZy4BBkp42NyxGFt7bB1l6m9Hm1i6Ws6caG-JPhLytHukpdzSj2jxaSJuyGmBBYz0E2LWTMnqCv1z9lKmzI0pvqOAHQGE6omdAYVtersN1CkPKhyHl8sXWwnmjTe4U4rgyYAddKQC5ExznFGV57JdiWF-k8yr2K6nkC12EgCWpUjoUo7j3kPJN5xEj1YXTlbBLfOkAVsJ2eXhS4kR58H5GmCVX7kUpLQVsZLAfMiQzhY-MLub6mXVCtOekN&isca=1";
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = 'image.jpeg';  // You can specify the name here
+            link.click();  // Trigger the download
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .signup-container h2 {
+            text-align: center;
+        }
+        .signup-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .signup-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .back-to-login-button {
+            margin-top: 10px;
+            background-color: #f44336; /* Red background for the back button */
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+        .success-message {
+            color: green;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="signup()">Sign Up</button>
+        <p class="error-message" id="error-message"></p>
+        <p class="success-message" id="success-message"></p>
+        <!-- Back to login button -->
+        <button class="back-to-login-button" onclick="goBackToLogin()">Back to Login</button>
+    </div>
+
+    <script>
+        async function signup() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+
+            // Clear previous messages
+            errorMessage.textContent = '';
+            successMessage.textContent = '';
+
+            // Validate form inputs
+            if (!username || !password) {
+                errorMessage.textContent = 'Please enter both username and password';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    successMessage.textContent = result.message;
+                } else {
+                    errorMessage.textContent = result.error;
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again.';
+            }
+        }
+
+        // Function to redirect to login page
+        function goBackToLogin() {
+            window.location.href = 'index.html'; // Adjust the URL as needed for your login page
+        }
+    </script>
+
+</body>
+</html>
+

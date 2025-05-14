@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #photosContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .photo-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            width: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-item img {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #userIdInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Photo Gallery - Download</h1>
+        
+        <div>
+            <label for="userIdInput">Enter Your User ID:</label>
+            <input type="text" id="userIdInput" placeholder="Enter your user ID">
+            <button onclick="fetchPhotos()">Fetch Photos</button>
+        </div>
+
+        <p id="errorMessage" class="error-message"></p>
+
+        <div id="photosContainer">
+        </div>
+    </div>
+
+    <script>
+        async function fetchPhotos() {
+            const userId = document.getElementById('userIdInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const photosContainer = document.getElementById('photosContainer');
+
+            errorMessage.textContent = '';
+            photosContainer.innerHTML = '';
+
+            if (!userId) {
+                errorMessage.textContent = 'Please enter a User ID';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/photos?userId=${userId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch photos');
+                }
+
+                const data = await response.json();
+
+                if (data.photos.length === 0) {
+                    errorMessage.textContent = 'No photos found for this user';
+                    return;
+                }
+
+                data.photos.forEach((photo, index) => {
+                    const photoItem = document.createElement('div');
+                    photoItem.className = 'photo-item';
+
+                    const img = document.createElement('img');
+                    img.src = photo.photo_url;
+                    img.alt = `Photo ${index + 1}`;
+
+                    const downloadBtn = document.createElement('a');
+                    downloadBtn.href = photo.photo_url;
+                    downloadBtn.textContent = 'Download';
+                    downloadBtn.className = 'download-btn';
+                    downloadBtn.download = `photo_${index + 1}.jpg`;
+                    downloadBtn.target = '_blank';
+
+                    photoItem.appendChild(img);
+                    photoItem.appendChild(downloadBtn);
+                    photosContainer.appendChild(photoItem);
+                });
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>
+

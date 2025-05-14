@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Photo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+        }
+        .upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"], input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            background-color: #2196F3;
+        }
+        .back-btn:hover {
+            background-color: #1e88e5;
+        }
+    </style>
+</head>
+<body onload="loadPosts()">
+    <h2>Upload Your Photo</h2>
+    
+    <!-- Upload Form Container -->
+    <div class="upload-container">
+        <!-- Display Username -->
+        <p>Welcome, <span id="usernameDisplay"></span></p>
+        
+        <!-- Photo Name Input -->
+        <input type="text" id="photoName" placeholder="Enter photo name" required>
+        
+        <!-- File Input for Photo Upload -->
+        <input type="file" name="imgfile" accept="image/jpeg" id="imgfile" required>
+        
+        <!-- Submit Button -->
+        <button id="submitBtn">Submit</button>
+        
+        <!-- Back to Photos Page Button -->
+        <button class="back-btn" onclick="goBackToPhotos()">Back to Photos</button>
+    </div>
+
+    <div id="images"></div>
+
+    <script>
+        // Get user data from localStorage (set during login)
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        // If user data is not found, redirect to the login page
+        if (!user) {
+            alert('You need to log in first.');
+            window.location.href = 'index.html'; // Redirect to login page if not logged in
+        } else {
+            // Display the logged-in user's username
+            document.getElementById('usernameDisplay').textContent = user.username;
+        }
+
+        // Function to go back to the photos page
+        function goBackToPhotos() {
+            window.location.href = 'photos.html';
+        }
+
+        // Function to generate unique ID for the image
+        function uuidv4() {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+                (
+                    c ^
+                    (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+                ).toString(16)
+            );
+        }
+
+        // Submit button event handler
+        document.getElementById("submitBtn").addEventListener("click", () => {
+            let postid = uuidv4();
+            let inputElem = document.getElementById("imgfile");
+            let file = inputElem.files[0];
+            
+            // Create new file with unique name
+            let blob = file.slice(0, file.size, "image/jpeg");
+            newFile = new File([blob], `${postid}_post.jpeg`, { type: "image/jpeg" });
+            
+            // Build form data with photo name, username, and the photo file
+            let formData = new FormData();
+            formData.append("imgfile", newFile);
+            formData.append("photoName", document.getElementById('photoName').value); // Photo name
+            formData.append("userId", user.username); // User ID (username used as user ID)
+            
+            // Submit the form to the server
+            fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.message === 'Photo uploaded successfully') {
+                    loadPosts(); // Reload photos after successful upload
+                }
+            })
+            .catch((error) => {
+                console.error('Error uploading photo:', error);
+            });
+        });
+
+        // Function to load the user's uploaded photos
+        function loadPosts() {
+            fetch(`/api/photos?userId=${user.username}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    const imagesContainer = document.getElementById("images");
+                    imagesContainer.innerHTML = ''; // Clear previous images
+
+                    if (data.photos && data.photos.length > 0) {
+                        data.photos.forEach((photo) => {
+                            const newImg = document.createElement("img");
+                            newImg.setAttribute("src", photo.photo_url+"?authuser=1");
+                            newImg.setAttribute("width", 100);
+                            newImg.setAttribute("height", 100);
+                            imagesContainer.appendChild(newImg);
+                        });
+                    } else {
+                        imagesContainer.innerHTML = '<p>No photos uploaded yet!</p>';
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching photos:', error);
+                });
+        }
+    </script>
+</body>
+</html>
+
