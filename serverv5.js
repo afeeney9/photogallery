@@ -12,7 +12,6 @@ app.use(express.json()); // Parse JSON bodies
 
 // Environment-based configuration
 const DB_USER = process.env.DB_USER || 'root';
-const DB_PASS = process.env.DB_PASS || '422';
 const DB_NAME = process.env.DB_NAME || 'gallerydb';
 const DB_HOST = '10.30.0.7'; // Replace with actual private IP of Cloud SQL from Terraform output
 const DB_PORT = parseInt(process.env.DB_PORT, 10) || 3306;
@@ -26,7 +25,6 @@ const bucket = storage.bucket("final-proj-photos");
 const pool = mysql.createPool({
   host: DB_HOST,
   user: DB_USER,
-  password: DB_PASS,
   database: DB_NAME,
   port: DB_PORT,
   waitForConnections: true,
@@ -119,7 +117,7 @@ app.post('/api/upload', upload.single('imgfile'), async (req, res) => {
         connection.execute(query, [userId, publicUrl, photoName], (err) => {
           connection.release();
           if (err) return res.status(500).json({ error: 'Failed to save photo' });
-          return res.status(200).json({ message: 'Photo uploaded', photoUrl: publicUrl });
+          return res.status(200).json({ message: 'Photo uploaded successfully', photoUrl: publicUrl });
         });
       });
     });
