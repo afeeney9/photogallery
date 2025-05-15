@@ -14,14 +14,13 @@ app.use(express.json()); // Parse JSON bodies
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASS = process.env.DB_PASS || '422';
 const DB_NAME = process.env.DB_NAME || 'gallerydb';
-const DB_HOST = process.env.DB_HOST || '10.3.0.3'; // Replace with actual private IP of Cloud SQL from Terraform output
+const DB_HOST = '10.3.0.3'; // Replace with actual private IP of Cloud SQL from Terraform output
 const DB_PORT = parseInt(process.env.DB_PORT, 10) || 3306;
 
-const GCS_BUCKET = process.env.GCS_BUCKET || 'my-terraform-gcs'; // Set via env or Terraform output
 
 // Google Cloud Storage client (uses VM default credentials)
 const storage = new Storage();
-const bucket = storage.bucket(GCS_BUCKET);
+const bucket = storage.bucket("final-proj-photos");
 
 // MySQL connection pool
 const pool = mysql.createPool({
